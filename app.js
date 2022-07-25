@@ -6,6 +6,8 @@ var logger = require('morgan');
 var expressValidator = require('express-validator')
 var expressSession = require('express-session')
 var hbs = require('express-handlebars');
+var db = require('./db.js')
+console.log(db);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -28,6 +30,7 @@ app.use(expressSession({secret: 'abc123',saveUninitialized: false, resave: false
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+db.ini();
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
