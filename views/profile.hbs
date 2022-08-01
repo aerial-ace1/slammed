@@ -1,3 +1,39 @@
-<h1>{{name}}</h1>
-<h2>{{hostel}}</h2>
-<h2>{{dept}}</h2>
+<h1>{{details.name}}</h1>
+<h2>{{details.hostel}}</h2>
+<h2>{{details.dept}}</h2>
+
+<p>{{details.user}} dakjfid {{writer}} </p>
+
+<p>{{#if details.user}}
+        <h3>Comments Written</h3>
+        <section class="commnt">
+            <ul>
+                {{#each written_comments }}
+                    <a href="/comment/view/{{id}}">
+                        <li>{{ this.reader }}</li>
+                    </a>
+                {{/each}}
+            </ul>
+        </section>
+    {{/if}}</p>
+
+
+<p>{{#if details.user }}
+        <h3>Comments Received</h3>
+        <section class="commnt">
+            <ul>
+                {{#each received_comments }}
+                    <a href="/comment/view/{{id}}">
+                        <li>{{ this.writer }}</li>
+                    </a>
+                {{/each}}
+            </ul>
+        </section>
+    {{else if details.written}}
+        {{#each received_comments }}
+            <h3>Comments Received</h3>
+            <li>{{ this.Q2 }}</li>
+        {{/each}}
+    {{else}}
+        <h3>Write a Comment</h3>
+    {{/if}}</p>

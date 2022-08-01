@@ -12,6 +12,7 @@ var db = require('./routes/db.js')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var commentRouter = require('./routes/comment')
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use(expressSession({secret: 'abc123',saveUninitialized: false, resave: false
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/comment', commentRouter)
 
 db.startup();
 // catch 404 and forward to error handler
@@ -45,8 +47,8 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
+  console.log(err.message)
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  console.log("fk");
   // render the error page
   res.status(err.status || 500);
   res.render('error');
