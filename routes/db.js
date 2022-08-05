@@ -43,7 +43,7 @@ function check_username(uid,pwd){
             con.query("SELECT * FROM USERS WHERE uid = ? AND pwd = ?",[uid,pwd], function (err,result){
             if (err){
                 console.log(err)
-                reject(err)
+                reject(false)
             }
             else{
                 console.log(result)
@@ -59,7 +59,7 @@ function get_details(uid){
         con.query("SELECT * FROM USERS WHERE uid = ?",uid, function (err,result){
             if (err){
                 console.log(err)
-                reject(err)
+                reject(false)
                 throw err;
             }
             else {
@@ -93,7 +93,7 @@ function got_comments(uid){
         con.query("SELECT * FROM comment WHERE reader = ?",uid, function (err,result){
             if (err){
                 console.log(err)
-                reject(err)
+                reject(false)
                 throw err;
             }
             else {
@@ -104,4 +104,68 @@ function got_comments(uid){
     })
 }
 
-module.exports = {startup,check_username,get_details,get_comments,got_comments};
+function check_comments(req){
+
+    return new Promise((resolve,reject) => {
+        con.query("SELECT * FROM comment WHERE reader = ? AND writer = ?",[req.params.id,req.session.auth], function (err,result){
+            if (err){
+                console.log(err)
+                reject(false)
+                throw err;
+            }
+            else {
+                console.log(result)
+                resolve(result)
+            }
+        })
+    })
+}
+
+function adduser(a){
+    return new Promise((resolve,reject) => {
+        con.query("INSERT INTO USERS VALUES (?,?,?,?,?)",[a.email,a.name,a.hostel,a.department,a.password], function (err,result){
+            if (err){
+                console.log(err)
+                reject(false)
+            }
+            else {
+                console.log(result)
+                resolve(true)
+            }
+        })
+    });
+}
+
+function id_comments(id){
+
+    return new Promise((resolve,reject) => {
+        con.query("SELECT * FROM comment WHERE id = ?",id, function (err,result){
+            if (err){
+                console.log(err)
+                reject(false)
+                throw err;
+            }
+            else {
+                console.log(result)
+                resolve(result)
+            }
+        })
+    })
+}
+
+function add_comments(a,b){
+    return new Promise((resolve,reject) => {
+        con.query("INSERT INTO comment VALUES (?,?,?,?)",[a.session.auth,a.name,a.hostel,a.department,a.password], function (err,result){
+            if (err){
+                console.log(err)
+                reject(false)
+            }
+            else {
+                console.log(result)
+                resolve(true)
+            }
+        })
+    });
+}
+
+module.exports = {startup,check_username,get_details,get_comments,got_comments,adduser,id_comments,add_comments,check_comments};

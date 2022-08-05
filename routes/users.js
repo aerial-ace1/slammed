@@ -14,44 +14,48 @@ router.get("/:id", function (req, res, next) {
 
 async function findUser(id, res, req) {
   let result = await get_details(id);
-  if (result === undefined){
-    res.redirect('error')
+  console.log(typeof(result));
+  if (result[0] === undefined) {
+    res.render("error");
+    return 0;
   }
+  let user = await verify(req, id)
   let written_comments = await get_comments(id);
   let received_comments = await got_comments(id);
-  var user = await verify(req,id); 
-  console.log("akhdjewd",user)
-  //var user;
-  
-  let details = {uid:result[0].uid, name:result[0].name, 
-	hostel:result[0].hostel, dept:result[0].dept, user: await verify(req,id), written: await written(user)};
-  console.log("akhdjewd",details.user)
+
+  let details = {
+    uid: result[0].uid,
+    name: result[0].name,
+    hostel: result[0].hostel,
+    dept: result[0].dept,
+    user: await verify(req, id),
+	written : await written(await verify(req, id),req,received_comments),
+  };
+  //details.written = await written(details.user,req,received_comments);
+  console.log(details.written);
   res.render("profile", {
     details: details,
     written_comments: written_comments,
-    received_comments : received_comments,
+    received_comments: received_comments,
     session: req.session,
-    //user : user,
-    //written : written,
   });
 }
 module.exports = router;
 
-async function verify(req,id){
-  return ((req.session.auth) == (id)) ? true : false;
+function verify(req, id) {
+  return new Promise((resolve,) => {
+    (req.session.auth === id) ? resolve(true) : resolve(false);
+  });
 }
 
-
-async function written(user){
-	console.log(user)
-	var written;
-	if (user = false){
-		console.log("b");
-		for (let i = 0; i < received_comments.length; i++){
-		if (received_comments[i].writer === req.session.auth){
-			written = received_comments[i]
-		}
-		}
-	}
-	return written;
+async function written(user,req,received_comments) {
+  var written;
+  if ((user = false)) {
+    for (let i = 0; i < received_comments.length; i++) {
+      if (received_comments[i].writer === req.session.auth) {
+        written = received_comments[i];
+      }
+    }
+  }
+  return written;
 }

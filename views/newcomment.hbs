@@ -1,0 +1,8 @@
+<h2> You to {{user}} {{comment.reader}} </h2>
+<form action="/comment/{{user}}{{comment.reader}}/submit" method="post">
+    <label>What do you think of me?</label>
+        <input type = "text" id="Q1" value={{comment.Q1}}>
+    <label>How much do you like me?</label>
+        <input type = "text" id="Q2" value={{comment.Q2}}>
+    <button type="submit">Submit</button>
+</form>

@@ -1,4 +1,7 @@
-<form action="/comment/submit" method="post">
-    <input type = "text" id="Q1" value={{first}}>
-    <input type = "text" id="Q2" value={{second}}>
-</form>
+<h2> You  to {{comment.reader}} </h2>
+    <h4>What do you think of me?</h4>
+    <p>{{comment.Q1}}</p>
+    <h4>How much do you like me?</h4>
+    <p>{{comment.Q2}}</p>
+
+<a href="/comment/{{comment.reader}}/edit/{{comment.id}}">Edit</a>

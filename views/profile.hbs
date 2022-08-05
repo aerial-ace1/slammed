@@ -2,14 +2,14 @@
 <h2>{{details.hostel}}</h2>
 <h2>{{details.dept}}</h2>
 
-<p>{{details.user}} dakjfid {{writer}} </p>
+<p> abc {{details.uid}} abc</p>
 
 <p>{{#if details.user}}
         <h3>Comments Written</h3>
         <section class="commnt">
             <ul>
                 {{#each written_comments }}
-                    <a href="/comment/view/{{id}}">
+                    <a href="/comment/{{this.reader}}/view/{{this.id}}">
                         <li>{{ this.reader }}</li>
                     </a>
                 {{/each}}
@@ -23,17 +23,22 @@
         <section class="commnt">
             <ul>
                 {{#each received_comments }}
-                    <a href="/comment/view/{{id}}">
+                    <a href="/comment/{{this.reader}}/view/{{this.id}}">
                         <li>{{ this.writer }}</li>
                     </a>
                 {{/each}}
             </ul>
         </section>
-    {{else if details.written}}
-        {{#each received_comments }}
-            <h3>Comments Received</h3>
-            <li>{{ this.Q2 }}</li>
-        {{/each}}
     {{else}}
-        <h3>Write a Comment</h3>
+        {{#if details.written}}
+                <h3>Comments Received</h3>
+                <p> {{details.written.Q1}} </p>
+                <a href="/comment/{{details.uid}}/view/{{this.id}}">
+                    <li>You</li>
+                </a>
+        {{else}}
+            <a href="/comment/{{details.uid}}/new">
+                <h3>Write a Comment</h3>
+            </a>
+        {{/if}}
     {{/if}}</p>

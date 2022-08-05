@@ -1,0 +1,33 @@
+<p> 
+    <ul>
+        {{# each errors }}
+        <li>{{ this.msg }}</li>
+        {{/each}}
+    </ul>
+</p>
+<p> 
+    <ul>
+        {{#each errors2 }}
+        <li>{{ this.msg }}</li>
+        {{/each}}
+    </ul>
+</p>
+<form action="/login/register" method="post">
+    <input type="text" id="email" name="email">
+    <input type="text" id="name" name="name">
+    <input type="password" id="password" name="password">
+    <input type="password" id="confirmPassword" name="confirmPassword">
+    <select id="hostel" name="hostel">
+        <option disabled selected value> Hostel </option>
+        {{#each hostel}}
+            <option id={{this.no}}> {{this.name}} </option>
+        {{/each}}
+    </select>
+    <select id="department" name="department">
+        <option disabled selected value> Department </option>
+        {{#each departments}}
+            <option id={{this.no}}> {{this.name}} </option>
+        {{/each}}
+    </select>
+    <button type="submit">Submit</button>
+</form>
