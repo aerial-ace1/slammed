@@ -4,4 +4,9 @@
     <h4>How much do you like me?</h4>
     <p>{{comment.Q2}}</p>
 
-<a href="/comment/{{comment.reader}}/edit/{{comment.id}}">Edit</a>
+{{#if user}}
+    <a href="/comment/{{comment.reader}}/edit/{{comment.id}}">Edit</a>
+    <a href="/comment/{{comment.reader}}/delete/{{comment.id}}">
+        Delete
+    </a>
+{{/if}}

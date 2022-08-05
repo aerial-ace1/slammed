@@ -73,7 +73,7 @@ function get_details(uid){
 function get_comments(uid){
 
     return new Promise((resolve,reject) => {
-        con.query("SELECT * FROM comment WHERE writer = ?",uid, function (err,result){
+        con.query("SELECT * FROM comment WHERE writer = ? ORDER BY ID desc",uid, function (err,result){
             if (err){
                 console.log(err)
                 reject(err)
@@ -90,7 +90,7 @@ function get_comments(uid){
 function got_comments(uid){
 
     return new Promise((resolve,reject) => {
-        con.query("SELECT * FROM comment WHERE reader = ?",uid, function (err,result){
+        con.query("SELECT * FROM comment WHERE reader = ? ORDER BY ID desc",uid, function (err,result){
             if (err){
                 console.log(err)
                 reject(false)
@@ -105,9 +105,8 @@ function got_comments(uid){
 }
 
 function check_comments(req){
-
     return new Promise((resolve,reject) => {
-        con.query("SELECT * FROM comment WHERE reader = ? AND writer = ?",[req.params.id,req.session.auth], function (err,result){
+        con.query("SELECT * FROM comment WHERE writer = ? AND reader = ?;",["106121007@g.com","106121007@g.com"], function (err,result){
             if (err){
                 console.log(err)
                 reject(false)
@@ -153,9 +152,9 @@ function id_comments(id){
     })
 }
 
-function add_comments(a,b){
+function edit_comments(a){
     return new Promise((resolve,reject) => {
-        con.query("INSERT INTO comment VALUES (?,?,?,?)",[a.session.auth,a.name,a.hostel,a.department,a.password], function (err,result){
+        con.query("UPDATE comment set Q1 = ?,Q2 = ? where id = ?",[a.body.Q1,a.body.Q2,a.params.id], function (err,result){
             if (err){
                 console.log(err)
                 reject(false)
@@ -168,4 +167,35 @@ function add_comments(a,b){
     });
 }
 
-module.exports = {startup,check_username,get_details,get_comments,got_comments,adduser,id_comments,add_comments,check_comments};
+function add_comments(a){
+    return new Promise((resolve,reject) => {
+        con.query("INSERT INTO comment(writer,reader,Q1,Q2) VALUES (?,?,?,?)",[a.session.auth,a.params.user,a.body.Q1,a.body.Q2], function (err,result){
+            if (err){
+                console.log(err)
+                reject(false)
+            }
+            else {
+                console.log(result)
+                resolve(true)
+            }
+        })
+    });
+}
+
+function delete_comments(a){
+    return new Promise((resolve,reject) => {
+        console.log("yay");
+        con.query("DELETE FROM comment WHERE id=?",a.params.id, function (err,result){
+            if (err){
+                console.log(err)
+                reject(false)
+            }
+            else {
+                console.log(result)
+                resolve(true)
+            }
+        })
+    });
+}
+
+module.exports = {startup,check_username,get_details,get_comments,got_comments,adduser,id_comments,add_comments,check_comments,edit_comments,delete_comments};

@@ -2,7 +2,6 @@
 <h2>{{details.hostel}}</h2>
 <h2>{{details.dept}}</h2>
 
-<p> abc {{details.uid}} abc</p>
 
 <p>{{#if details.user}}
         <h3>Comments Written</h3>
@@ -30,12 +29,12 @@
             </ul>
         </section>
     {{else}}
-        {{#if details.written}}
+        {{#if written}}
                 <h3>Comments Received</h3>
-                <p> {{details.written.Q1}} </p>
-                <a href="/comment/{{details.uid}}/view/{{this.id}}">
+                <a href="/comment/{{written.reader}}/view/{{written.id}}">
                     <li>You</li>
                 </a>
+                
         {{else}}
             <a href="/comment/{{details.uid}}/new">
                 <h3>Write a Comment</h3>

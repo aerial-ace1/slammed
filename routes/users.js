@@ -29,15 +29,13 @@ async function findUser(id, res, req) {
     hostel: result[0].hostel,
     dept: result[0].dept,
     user: await verify(req, id),
-	written : await written(await verify(req, id),req,received_comments),
   };
-  //details.written = await written(details.user,req,received_comments);
-  console.log(details.written);
   res.render("profile", {
     details: details,
     written_comments: written_comments,
     received_comments: received_comments,
     session: req.session,
+    written : await written(user,req,received_comments),
   });
 }
 module.exports = router;
@@ -50,7 +48,7 @@ function verify(req, id) {
 
 async function written(user,req,received_comments) {
   var written;
-  if ((user = false)) {
+  if ((user === false)) {
     for (let i = 0; i < received_comments.length; i++) {
       if (received_comments[i].writer === req.session.auth) {
         written = received_comments[i];

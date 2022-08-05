@@ -1,8 +1,12 @@
-<h2> You to {{user}} {{comment.reader}} </h2>
-<form action="/comment/{{user}}{{comment.reader}}/submit" method="post">
-    <label>What do you think of me?</label>
-        <input type = "text" id="Q1" value={{comment.Q1}}>
-    <label>How much do you like me?</label>
-        <input type = "text" id="Q2" value={{comment.Q2}}>
-    <button type="submit">Submit</button>
-</form>
+<h2> You to {{user}}{{comment.reader}} </h2>
+{{#if comment}}
+    <form action="/comment/{{user}}{{comment.reader}}/submit/{{comment.id}}" method="post">
+{{else}}
+    <form action="/comment/{{user}}{{comment.reader}}/submit" method="post">
+{{/if}}
+        <label>What do you think of me?</label>
+            <input type = "text" id="Q1" name="Q1" value={{comment.Q1}}>
+        <label>How much do you like me?</label>
+            <input type = "text" id="Q2" name="Q2" value={{comment.Q2}}>
+        <button type="submit">Submit</button>
+    </form>
