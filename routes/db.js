@@ -1,4 +1,3 @@
-const { reject } = require('async');
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
@@ -57,6 +56,23 @@ function get_details(uid){
 
     return new Promise((resolve,reject) => {
         con.query("SELECT * FROM USERS WHERE uid = ?",uid, function (err,result){
+            if (err){
+                console.log(err)
+                reject(false)
+                throw err;
+            }
+            else {
+                console.log(result)
+                resolve(result)
+            }
+        })
+    })
+}
+
+function get_name(a){
+
+    return new Promise((resolve,reject) => {
+        con.query(`SELECT * FROM USERS WHERE NAME like '%${a}%'`, function (err,result){
             if (err){
                 console.log(err)
                 reject(false)
@@ -198,4 +214,4 @@ function delete_comments(a){
     });
 }
 
-module.exports = {startup,check_username,get_details,get_comments,got_comments,adduser,id_comments,add_comments,check_comments,edit_comments,delete_comments};
+module.exports = {startup,check_username,get_details,get_comments,got_comments,adduser,id_comments,add_comments,check_comments,edit_comments,delete_comments,get_name};

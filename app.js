@@ -13,6 +13,7 @@ var db = require('./routes/db.js')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var commentRouter = require('./routes/comment')
+var searchRouter = require('./routes/search')
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use(expressSession({secret: 'abc123',saveUninitialized: false, resave: false
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/comment', commentRouter)
+app.use('/search', searchRouter)
 
 db.startup();
 // catch 404 and forward to error handler
