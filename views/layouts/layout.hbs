@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
+    <canvas id="canvas" style=""></canvas>
     <div class="navbar">
         <a class="norm" href="/">Slammed</a>
         <a class="norm" href="/search">Search</a>
@@ -13,10 +14,12 @@
             <a class="abnorm" href="/users/{{auth}}">Profile</a>
             <a class="abnorm" href="/logout">Logout</a>
         {{else}}
-            <a class="abnorm" href="/login">login</a>
+            <a class="abnorm" href="/login">Login</a>
         {{/if}}
     </div>
-
+    
     {{{ body }}}
+    <script src="/javascripts/balls.js"></script>
+    <link rel="script" href="/javascripts/balls.js">
 </body>
 </html>

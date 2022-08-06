@@ -45,7 +45,6 @@ router.post("/login", function (req, res, next) {
   req
     .check("password", "Password is invalid")
     .isLength({ min: 4 })
-    .equals(req.body.confirmPassword);
 
   var errors = req.validationErrors();
   if (errors) {

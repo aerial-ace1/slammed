@@ -14,7 +14,6 @@ router.get("/:id", function (req, res, next) {
 
 async function findUser(id, res, req) {
   let result = await get_details(id);
-  console.log(typeof(result));
   if (result[0] === undefined) {
     res.render("error", {title: "Error", auth: req.session.auth,});
     return 0;

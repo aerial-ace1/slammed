@@ -1,10 +1,18 @@
 body {
   padding-top: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
 }
 
 a {
   color: #00B7FF;
+}
+
+canvas{
+  position:fixed; 
+  top:0;
+  left:0;
+  z-index:-1
 }
 
 .navbar {
@@ -12,11 +20,15 @@ a {
   background-color: #333;
   position: fixed; 
   top: 0; 
+  left: 0;
   width: 100%; 
+  min-height: 50px;
 }
 
 .norm {
-  min-width: 30px;
+  max-width: 80px;
+  margin: 2px;
+  padding: 5px;
   float: left;
   display: block;
   color: #f2f2f2;

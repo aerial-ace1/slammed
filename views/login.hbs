@@ -1,5 +1,5 @@
 <h1>{{ title }}</h1>
-<p>{{success}}</p>
+
 <p>{{# if errors }}
         <section class="errors">
             <ul>
@@ -10,10 +10,11 @@
         </section>
     {{/if}}</p>
 <form action="/login" method="post">
-    <input type="text" id="email" name="email">
-    <input type="password" id="password" name="password">
-    <input type="password" id="confirmPassword" name="confirmPassword">
-    <button type="submit">Submit</button>
+    <input type="text" id="email" name="email" placeholder="Email">
+    <input type="password" id="password" name="password" placeholder="Password">
+    <br>
+    <br>
+    <button type="submit">Login</button>
 </form>
-
+<br>
 <a href="/login/register">Register</a>
