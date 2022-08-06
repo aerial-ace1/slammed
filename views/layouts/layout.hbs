@@ -6,6 +6,17 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
+    <div class="navbar">
+        <a class="norm" href="/">Slammed</a>
+        <a class="norm" href="/search">Search</a>
+        {{#if auth}}
+            <a class="abnorm" href="/users/{{auth}}">Profile</a>
+            <a class="abnorm" href="/logout">Logout</a>
+        {{else}}
+            <a class="abnorm" href="/login">login</a>
+        {{/if}}
+    </div>
+
     {{{ body }}}
 </body>
 </html>

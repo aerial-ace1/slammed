@@ -3,7 +3,7 @@ var router = express.Router();
 var checks = require("./db");
 
 router.get("/", function (req, res, next) {
-    res.render("search");
+    res.render("search",{ title: "Search", auth: req.session.auth,});
 });
 
 router.post("/", function (req, res, next) {
@@ -12,6 +12,6 @@ router.post("/", function (req, res, next) {
 
 async function callback(res,req){
     let results = await checks.get_name(req.body.search);
-    res.render("search",{search:req.body.search,results:results})
+    res.render("search",{ title: "Search", auth: req.session.auth,search:req.body.search,results:results})
 }
 module.exports = router;

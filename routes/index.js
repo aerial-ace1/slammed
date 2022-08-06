@@ -16,7 +16,12 @@ var hostel = [
 ];
 
 router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
+  res.render("index", {  title: "Slammed", auth: req.session.auth, });
+});
+
+router.get("/logout", function (req, res, next) {
+  req.session.auth = null;
+  res.redirect("../");
 });
 
 /* GET home page. */
@@ -26,6 +31,7 @@ router.get("/login", function (req, res, next) {
     req.session.errors = null;
   } else {
     res.render("login", {
+      auth: req.session.auth,
       title: "Login",
       success: req.session.success,
       errors: req.session.errors,
@@ -61,6 +67,8 @@ router.get("/login/register", function (req, res, next) {
     res.redirect(`/users/${req.session.auth}`);
   } else {
     res.render("register", {
+      title: "Register", 
+      auth: req.session.auth,
       departments: departments,
       hostel: hostel,
       errors: req.session.regerrors,

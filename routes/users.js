@@ -16,7 +16,7 @@ async function findUser(id, res, req) {
   let result = await get_details(id);
   console.log(typeof(result));
   if (result[0] === undefined) {
-    res.render("error");
+    res.render("error", {title: "Error", auth: req.session.auth,});
     return 0;
   }
   let user = await verify(req, id)
@@ -31,6 +31,7 @@ async function findUser(id, res, req) {
     user: await verify(req, id),
   };
   res.render("profile", {
+    title: details.name, auth: req.session.auth,
     details: details,
     written_comments: written_comments,
     received_comments: received_comments,
