@@ -82,6 +82,8 @@ router.get("/login/register", function (req, res, next) {
       errors: req.session.regerrors,
       errors2: req.session.regerrorsextra,
     });
+    req.session.regerrors = null;
+    req.session.regerrorsextra = null;
   }
 });
 
