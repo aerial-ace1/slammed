@@ -67,25 +67,25 @@ router.get("/:user/delete/:id",function (req, res, next) {
 async function new_callback(req,res){
     let ided_comment = await checks.check_comments(req);
     if (ided_comment[0] === undefined){
-        res.render('newcomment',{user : req.params.user})
+        res.render('newcomment',{title: "New Comment", auth: req.session.auth,user : req.params.user})
     }
     else{
-        res.redirect(`/comment/${req.params.id}/edit/${ided_comment[0].id}`)
+        res.redirect(`/comment/${req.params.user}/edit/${ided_comment[0].id}`)
     }
 }
 async function view_callback(req,res){
     let ided_comment = await checks.id_comments(req.params.id);
     if (ided_comment[0] === undefined){
         console.log("a")
-        res.render("error");
+        res.render("error",{title: "Error", auth: req.session.auth,});
     }
     else{
         if (req.session.auth === ided_comment[0].writer || req.session.auth === ided_comment[0].reader){
             let user = await verify(req,ided_comment[0].writer)
-            res.render("comment",{comment : ided_comment[0],user:user})
+            res.render("comment",{title: "Comment", auth: req.session.auth,comment : ided_comment[0],user:user})
         }
         else{
-            res.render("error");
+            res.render("error",{title: "Error", auth: req.session.auth,});
             console.log("b")
         }
     }
@@ -94,14 +94,14 @@ async function view_callback(req,res){
 async function edit_callback(id,req,res){
     let ided_comment = await checks.id_comments(id);
     if (ided_comment[0] === undefined){
-        res.render("error");
+        res.render("error",{title: "Error", auth: req.session.auth,});
     }
     else{
         if (req.session.auth === ided_comment[0].writer){
-            res.render("newcomment",{comment : ided_comment[0]})
+            res.render("newcomment",{title: "New Comment", auth: req.session.auth,comment : ided_comment[0]})
         }
         else{
-            res.render("error");
+            res.render("error",{title: "Error", auth: req.session.auth,});
         }
     }
 }
@@ -109,21 +109,16 @@ async function edit_callback(id,req,res){
 async function submit_callback(req,res){
     if(req.params.id){
         let ided_comment = await checks.id_comments(req.params.id);
-        console.log(ided_comment);
         if( req.session.auth === ided_comment[0].writer){
-            console.log("yay");
             let edit_comment = await checks.edit_comments(req);
-            console.log(edit_comment);
             res.redirect(`/comment/${ided_comment[0].reader}/view/${ided_comment[0].id}`)  
         }
         else{
-            console.log("uh ohx2");
-            res.render("error");
+            res.render("error",{title: "Error", auth: req.session.auth,});
         }   
     }
     else{
-        console.log("uh ohx1");
-        res.render("error");
+        res.render("error",{title: "Error", auth: req.session.auth,});
         
         }
     }
@@ -135,8 +130,7 @@ async function submit_new_callback(req,res){
         
     }
     else{
-        console.log("ded");
-        res.render("error");
+        res.render("error",{title: "Error", auth: req.session.auth,});
     }
 }
 async function delete_callback(req,res){
@@ -145,7 +139,7 @@ async function delete_callback(req,res){
         res.redirect(`../../../users/${req.session.auth}`)
     }
     else{
-        res.render("error");
+        res.render("error",{title: "Error", auth: req.session.auth,});
     }
 }
 

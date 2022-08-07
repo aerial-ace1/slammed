@@ -1,0 +1,8 @@
+{{#if friends}}
+    <h2>Friends:</h2>
+    <ul>
+    {{#each friends}}
+        <a href="/users/{{this}}"> <li> {{this}} </li> </a>
+    {{/each}}
+    </ul>
+{{/if}}

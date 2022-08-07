@@ -11,6 +11,7 @@
         <a class="norm" href="/">Slammed</a>
         <a class="norm" href="/search">Search</a>
         {{#if auth}}
+            <a class="abnorm" href="/friends/{{auth}}">Friends</a>
             <a class="abnorm" href="/users/{{auth}}">Profile</a>
             <a class="abnorm" href="/logout">Logout</a>
         {{else}}
@@ -20,6 +21,5 @@
     
     {{{ body }}}
     <script src="/javascripts/balls.js"></script>
-    <link rel="script" href="/javascripts/balls.js">
 </body>
 </html>

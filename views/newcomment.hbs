@@ -1,4 +1,4 @@
-<h2> You to {{user}}{{comment.reader}} </h2>
+<h2> You to <a href="/users/{{user}}{{comment.reader}}">{{user}}{{comment.reader}}</a></h2>
 {{#if comment}}
     <form action="/comment/{{user}}{{comment.reader}}/submit/{{comment.id}}" method="post">
 {{else}}

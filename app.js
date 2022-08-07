@@ -14,6 +14,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var commentRouter = require('./routes/comment')
 var searchRouter = require('./routes/search')
+var friendsRouter = require('./routes/friends')
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/comment', commentRouter)
 app.use('/search', searchRouter)
+app.use('/friends',friendsRouter)
 
 db.startup();
 // catch 404 and forward to error handler
