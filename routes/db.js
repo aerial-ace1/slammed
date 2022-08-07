@@ -71,14 +71,16 @@ function get_details(uid) {
   });
 }
 
-function get_name(a) {
+function get_both(a) {
   return new Promise((resolve, reject) => {
     con.query(
-      `SELECT * FROM USERS WHERE NAME like '%${a}%'`,
+      `SELECT * FROM USERS WHERE NAME like '%${a.body.search}%' AND dept LIKE '%${a.body.department}' AND hostel LIKE '%${a.body.hostel}'`,
       function (err, result) {
         if (err) {
+          throw err;
           reject(false);
         } else {
+          console.log(result);
           resolve(result);
         }
       }
@@ -295,7 +297,7 @@ function remove_friend(a) {
 
 function find_friend(a) {
   return new Promise((resolve, reject) => {
-    const friends = []
+    const friends = [];
     con.query(
       "SELECT * FROM friends WHERE give=? AND accepted=1",
       [a.session.auth],
@@ -304,7 +306,7 @@ function find_friend(a) {
           reject(false);
         } else {
           for (i = 0; i < result.length; i++) {
-            friends.push(result[i].got)
+            friends.push(result[i].got);
           }
           console.log(result);
           con.query(
@@ -312,11 +314,12 @@ function find_friend(a) {
             [a.session.auth],
             function (err, result2) {
               for (i = 0; i < result2.length; i++) {
-                friends.push(result2[i].give)
+                friends.push(result2[i].give);
               }
               console.log(friends);
               resolve(friends);
-            })
+            }
+          );
         }
       }
     );
@@ -335,10 +338,10 @@ module.exports = {
   check_comments,
   edit_comments,
   delete_comments,
-  get_name,
   check_friend,
   add_friend,
   accept_friend,
   remove_friend,
   find_friend,
+  get_both,
 };

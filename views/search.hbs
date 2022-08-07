@@ -1,6 +1,17 @@
 <form action="/search" method="post">
     <input type="text" id="search" name="search" placeholder="Search">
-    <
+    <select id="hostel" name="hostel">
+        <option disabled selected value> Hostel </option>
+        {{#each hostel}}
+            <option id={{this.no}}> {{this.name}} </option>
+        {{/each}}
+    </select>
+    <select id="department" name="department">
+        <option disabled selected value> Department </option>
+        {{#each departments}}
+            <option id={{this.no}}> {{this.name}} </option>
+        {{/each}}
+    </select>
     <button type="submit">Search</button>
 </form>
 
