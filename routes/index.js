@@ -53,8 +53,7 @@ router.get("/login", function (req, res, next) {
 });
 
 router.post("/login", function (req, res, next) {
-  req.check("email", "Invalid email address").isEmail();
-  req.check("password", "Password is invalid").isLength({ min: 4 });
+  req.check("password", "Password is invalid").isLength({ min: 8 });
 
   var errors = req.validationErrors();
   if (errors) {
@@ -96,12 +95,9 @@ router.post(
       return 0;
     }
 
-    req.check("email", "Invalid email address").isEmail();
     req.check("name", "Name is not alpha").isAlpha();
-    req
-      .check("password", "Password is invalid")
-      .isLength({ min: 4 })
-      .equals(req.body.confirmPassword);
+    req.check("password", "Password should be atleast 8 Char").isLength({ min: 8 })
+    req.check("password", "Password doesn't match Confirm Passowrd").equals(req.body.confirmPassword);
     req.check("hostel", "Pick a hostel").notEmpty();
     req.check("department", "Pick a Department").notEmpty();
     req.session.regerrors = req.validationErrors();
@@ -113,7 +109,7 @@ router.post(
       }
     }
     if (departments_in == 1) {
-      req.session.regerrors[5] = deptError;
+      req.session.regerrors.push(deptError)
     }
     for (i = 0; i < hostel.length; i++) {
       if (hostel[i].no == req.body.hostel) {
@@ -121,14 +117,14 @@ router.post(
       }
     }
     if (hostel_in == 1) {
-      req.session.regerrors[6] = hostelError;
+      req.session.regerrors.push(hostelError)
     }
     callback2(req, res);
   }
 );
 
 async function callback(req, res) {
-  let profile = await checks.check_username(req.body.email, req.body.password);
+  let profile = await checks.check_username(req.body.username, req.body.password);
   if (profile[0] == undefined) {
     req.session.success = false;
     req.session.errors = creError;
@@ -140,7 +136,7 @@ async function callback(req, res) {
 }
 
 async function callback2(req, res) {
-  let result = await checks.get_details(req.body.email);
+  let result = await checks.get_details(req.body.username);
   if (
     result[0] === undefined &&
     req.session.regerrors === false &&
@@ -149,15 +145,16 @@ async function callback2(req, res) {
     req.session.regerrorsextra = await checks.adduser(req.body);
     if (req.session.regerrorsextra) {
       req.session.success = true;
-      req.session.auth = req.body.email;
-      res.redirect(`/users/${req.body.email}`);
+      req.session.auth = req.body.username;
+      res.redirect(`/users/${req.body.username}`);
     } else {
       res.redirect("/login/register");
     }
   } else {
     if (result[0] != undefined) {
-      if (result[0].uid === req.body.email) {
-        req.session.regerrors[7] = userError;
+      if (result[0].uid === req.body.username) {
+        console.log("a")
+        req.session.regerrors.push(userError)
       }
     }
     res.redirect("/login/register");

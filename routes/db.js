@@ -141,7 +141,7 @@ function adduser(a) {
   return new Promise((resolve, reject) => {
     con.query(
       "INSERT INTO USERS VALUES (?,?,?,?,?)",
-      [a.email, a.name, a.hostel, a.department, a.password],
+      [a.username, a.name, a.hostel, a.department, a.password],
       function (err, result) {
         if (err) {
           reject(false);
