@@ -4,9 +4,6 @@ const { get_details, get_comments, got_comments } = require("./db");
 var router = express.Router();
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send(req.session.auth);
-});
 
 router.get("/:id", function (req, res, next) {
   findUser(req.params.id, res, req);

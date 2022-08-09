@@ -40,6 +40,7 @@ async function callback(res, req) {
     results: results,
     departments: departments,
     hostel: hostel,
+    done : true,
   });
 }
 module.exports = router;

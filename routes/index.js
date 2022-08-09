@@ -53,6 +53,7 @@ router.get("/login", function (req, res, next) {
 });
 
 router.post("/login", function (req, res, next) {
+  req.check("email","Enter a proper Email ID").isEmail;
   req.check("password", "Password is invalid").isLength({ min: 8 });
 
   var errors = req.validationErrors();
@@ -87,46 +88,50 @@ router.get("/login/register", function (req, res, next) {
   }
 });
 
-router.post(
-  "/login/register",
-  /* upload.single('image'), */ function (req, res, next) {
-    req.session.regerrors = null;
-    req.session.regerrorsextra = null;
-    if (req.session.auth) {
-      res.redirect(`/users/${req.session.auth}`);
-      return 0;
-    }
-
-    req.check("name", "Name is not alpha").isAlpha();
-    req.check("password", "Password should be atleast 8 Char").isLength({ min: 8 })
-    req.check("password", "Password doesn't match Confirm Passowrd").equals(req.body.confirmPassword);
-    req.check("hostel", "Pick a hostel").notEmpty();
-    req.check("department", "Pick a Department").notEmpty();
-    req.session.regerrors = req.validationErrors();
-    departments_in = 0;
-    hostel_in = 0;
-    for (i = 0; i < departments.length; i++) {
-      if (departments[i].no == req.body.department) {
-        departments_in = 1;
-      }
-    }
-    if (departments_in == 1) {
-      req.session.regerrors.push(deptError)
-    }
-    for (i = 0; i < hostel.length; i++) {
-      if (hostel[i].no == req.body.hostel) {
-        hostel_in = 1;
-      }
-    }
-    if (hostel_in == 1) {
-      req.session.regerrors.push(hostelError)
-    }
-    callback2(req, res);
+router.post("/login/register", function (req, res, next) {
+  req.session.regerrors = null;
+  req.session.regerrorsextra = null;
+  if (req.session.auth) {
+    res.redirect(`/users/${req.session.auth}`);
+    return 0;
   }
-);
+  req.check("email","Enter a proper Email ID").isEmail;
+  req.check("name", "Name is not alpha").isAlpha();
+  req
+    .check("password", "Password should be atleast 8 Char")
+    .isLength({ min: 8 });
+  req
+    .check("password", "Password doesn't match Confirm Passowrd")
+    .equals(req.body.confirmPassword);
+  req.check("hostel", "Pick a hostel").notEmpty();
+  req.check("department", "Pick a Department").notEmpty();
+  req.session.regerrors = req.validationErrors();
+  departments_in = 0;
+  hostel_in = 0;
+  for (i = 0; i < departments.length; i++) {
+    if (departments[i].no == req.body.department) {
+      departments_in = 1;
+    }
+  }
+  if (departments_in == 1) {
+    req.session.regerrors.push(deptError);
+  }
+  for (i = 0; i < hostel.length; i++) {
+    if (hostel[i].no == req.body.hostel) {
+      hostel_in = 1;
+    }
+  }
+  if (hostel_in == 1) {
+    req.session.regerrors.push(hostelError);
+  }
+  callback2(req, res);
+});
 
 async function callback(req, res) {
-  let profile = await checks.check_username(req.body.username, req.body.password);
+  let profile = await checks.check_username(
+    req.body.username,
+    req.body.password
+  );
   if (profile[0] == undefined) {
     req.session.success = false;
     req.session.errors = creError;
@@ -155,8 +160,8 @@ async function callback2(req, res) {
   } else {
     if (result[0] != undefined) {
       if (result[0].uid === req.body.username) {
-        console.log("a")
-        req.session.regerrors.push(userError)
+        console.log("a");
+        req.session.regerrors.push(userError);
       }
     }
     res.redirect("/login/register");

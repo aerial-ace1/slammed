@@ -261,6 +261,23 @@ function add_friend(a) {
   });
 }
 
+function find_request(a) {
+  return new Promise((resolve, reject) => {
+    con.query(
+      "SELECT * FROM friends WHERE got=? AND accepted=0",
+      [a],
+      function (err, result) {
+        if (err) {
+          reject(false);
+        } else {
+          console.log(result);
+          resolve(result);
+        }
+      }
+    );
+  });
+}
+
 function accept_friend(a) {
   return new Promise((resolve, reject) => {
     con.query(
@@ -300,7 +317,7 @@ function find_friend(a) {
     const friends = [];
     con.query(
       "SELECT * FROM friends WHERE give=? AND accepted=1",
-      [a.session.auth],
+      [a],
       function (err, result) {
         if (err) {
           reject(false);
@@ -311,7 +328,7 @@ function find_friend(a) {
           console.log(result);
           con.query(
             "SELECT * FROM friends WHERE got=? AND accepted=1",
-            [a.session.auth],
+            [a],
             function (err, result2) {
               for (i = 0; i < result2.length; i++) {
                 friends.push(result2[i].give);
@@ -344,4 +361,5 @@ module.exports = {
   remove_friend,
   find_friend,
   get_both,
+  find_request,
 };

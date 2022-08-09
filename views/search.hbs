@@ -15,10 +15,11 @@
     <button type="submit">Search</button>
 </form>
 
-{{#if search}}
+{{#if done}}
     <h2>Searched for '{{search}}'</h2>
     <ul>
     {{#each results}}
         <a href="/users/{{this.uid}}"> <li> {{this.name}} </li> </a>
     {{/each}}
+    </ul>
 {{/if}}

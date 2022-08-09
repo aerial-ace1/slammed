@@ -1,11 +1,11 @@
 var express = require("express");
+const { check } = require("express-validator/check");
 var router = express.Router();
 var checks = require("./db");
 
 router.get("/:user", function (req, res, next) {
   if (req.session.auth) {
     find_callback(req, res);
-    console.log("a");
   } else {
     res.redirect("../../login");
   }
@@ -72,12 +72,14 @@ router.post("/:user/connections", function (req, res, next) {
 });
 
 async function find_callback(req, res) {
-  let friends = await checks.find_friend(req);
+  let friends = await checks.find_friend(req.session.auth);
+  let accept = await checks.find_request(req.session.auth)
   friends.reverse();
   res.render("friends", {
     title: "Friends",
     auth: req.session.auth,
     friends: friends,
+    accept : accept
   });
 }
 
@@ -110,7 +112,7 @@ async function remove_callback(req, res) {
 }
 
 async function connections_callback(req, res) {
-  let f1 = await checks.find_friend(req);
+  let f1 = await checks.find_friend(req.session.auth);
   let f2 = [];
   let f3 = [];
   for (i = 0; i < f1.length; i++) {
@@ -122,6 +124,7 @@ async function connections_callback(req, res) {
       f2 = [...f2, ...f4];
     }
   }
+  console.log("a: ",f2)
   for (i = 0; i < f2.length; i++) {
     if (f2[i] === req.params.user) {
       res.json([{ level: 2 }]);

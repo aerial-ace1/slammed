@@ -1,8 +1,19 @@
+<h2>Friends:</h2>
 {{#if friends}}
-    <h2>Friends:</h2>
     <ul>
     {{#each friends}}
         <a href="/users/{{this}}"> <li> {{this}} </li> </a>
     {{/each}}
     </ul>
 {{/if}}
+
+<h2>Pending Requests:</h2>
+{{#if friends}}
+    <ul>
+    {{#each accept}}
+        <li><a href="/users/{{this.give}}">{{this.give}} </a>  ---
+        <a href="/friends/{{this.give}}/accept"> Accept? </a></li>
+    {{/each}}
+    </ul>
+{{/if}}
+
