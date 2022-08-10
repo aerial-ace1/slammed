@@ -1,7 +1,7 @@
 var express = require("express");
-const { check } = require("express-validator/check");
 var router = express.Router();
 var checks = require("./db");
+var ma = require("./mail");
 
 router.get("/:user", function (req, res, next) {
   if (req.session.auth) {
@@ -98,11 +98,15 @@ async function check_callback(req, res) {
 
 async function send_callback(req, res) {
   let sent = await checks.add_friend(req);
+  let username = await checks.get_details(req.session.auth)
+  ma.send_request(req.params.id,username[0].name)
   res.redirect(`../../../users/${req.params.user}`);
 }
 
 async function accept_callback(req, res) {
   let sent = await checks.accept_friend(req);
+  let username = await checks.get_details(req.session.auth)
+  ma.accepted_request(req.params.id,username[0].name)
   res.redirect(`../../../users/${req.params.user}`);
 }
 

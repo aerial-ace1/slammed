@@ -3,7 +3,7 @@ var router = express.Router();
 var checks = require("./db");
 
 var creError = [{ msg: "Invalid Credentials" }];
-var userError = { msg: "Pick Another Username" };
+var userError = [{ msg: "Pick Another Username" }]
 var deptError = { msg: "Invalid Department" };
 var hostelError = { msg: "Invalid Hostel" };
 var departments = [
@@ -114,7 +114,7 @@ router.post("/login/register", function (req, res, next) {
     }
   }
   if (departments_in == 1) {
-    req.session.regerrors.push(deptError);
+    req.session.regerrors[3] = (deptError);
   }
   for (i = 0; i < hostel.length; i++) {
     if (hostel[i].no == req.body.hostel) {
@@ -122,7 +122,7 @@ router.post("/login/register", function (req, res, next) {
     }
   }
   if (hostel_in == 1) {
-    req.session.regerrors.push(hostelError);
+    req.session.regerrors[4] = (hostelError);
   }
   callback2(req, res);
 });
@@ -161,7 +161,7 @@ async function callback2(req, res) {
     if (result[0] != undefined) {
       if (result[0].uid === req.body.username) {
         console.log("a");
-        req.session.regerrors.push(userError);
+        req.session.regerrors =  (userError);
       }
     }
     res.redirect("/login/register");
