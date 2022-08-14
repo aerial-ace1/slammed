@@ -2,7 +2,7 @@ var nodemailer = require("nodemailer");
 require("dotenv").config();
 
 var transporter = nodemailer.createTransport({
-  host: "smtp.mailtrap.io",
+  host: "outlook.com",
   port: 2525,
   auth: {
     user: process.env.email,
@@ -28,7 +28,7 @@ function send_request(sending, name) {
 
 function accepted_request(sending, name) {
   var send = {
-    from: "ea62388b42aba0@inbox.mailtrap.io",
+    from: process.env.email,
     to: sending,
     subject: `Your Friend Request on Slammed to ${name} has been accepted`,
     text: `Your Friend Request on Slammed to ${name} has been accepted Check 'em' out on slammed`,
