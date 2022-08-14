@@ -53,7 +53,7 @@ router.get("/login", function (req, res, next) {
 });
 
 router.post("/login", function (req, res, next) {
-  req.check("email","Enter a proper Email ID").isEmail();
+  req.check("username","Enter a proper Email ID").isEmail();
   req.check("password", "Password is invalid").isLength({ min: 8 });
 
   var errors = req.validationErrors();
@@ -95,7 +95,7 @@ router.post("/login/register", function (req, res, next) {
     res.redirect(`/users/${req.session.auth}`);
     return 0;
   }
-  req.check("email","Enter a proper Email ID").isEmail();
+  req.check("username","Enter a proper Email ID").isEmail();
   req.check("name", "Name is not alpha").isAlpha();
   req
     .check("password", "Password should be atleast 8 Char")
