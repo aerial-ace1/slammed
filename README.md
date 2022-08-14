@@ -22,6 +22,10 @@ This is a web-Slambook made with a node.js backend supported by a mysql database
     MY_SQL_USER = 
   
     MY_SQL_PASS =
-  
+    
+    email = 
+    
+    passw = 
+    
 5. Start the server : npm start
 6. Server Starts on localhost:3000
